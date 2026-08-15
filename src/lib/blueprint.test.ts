@@ -1,0 +1,2 @@
+import { describe, expect, it } from "vitest";import { generateExamBlueprint } from "./blueprint";
+describe("blueprint",()=>{it("crea 65 posiciones balanceadas",()=>{const slots=generateExamBlueprint();expect(slots).toHaveLength(65);expect(new Set(slots.map(item=>item.axis)).size).toBe(4);expect(new Set(slots.map(item=>item.skill)).size).toBe(4);expect(slots.some(item=>item.resourceType!=="TEXT")).toBe(true)})});

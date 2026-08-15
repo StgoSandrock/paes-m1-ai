@@ -79,4 +79,3 @@ El proyecto es compatible con Vercel. Configura las variables en Development, Pr
 ## Fuentes curriculares
 
 La estructura se preparó a partir del Temario PAES M1 Admisión 2027 y del análisis de patrones de la selección de preguntas PAES M1 Admisión 2026. Las preguntas incluidas son originales y no copian ni parafrasean ítems DEMRE.
-

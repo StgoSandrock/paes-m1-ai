@@ -1,0 +1,9 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { CheckCircle2, Circle } from "lucide-react";
+import { saveExam } from "@/lib/storage";
+import type { PublicQuestion } from "@/lib/types";
+
+const steps = ["Analizando contenidos", "Seleccionando preguntas", "Verificando dificultad", "Comprobando preguntas", "Preparando ensayo"];
+export function GeneratingClient(){const router=useRouter();const [done,setDone]=useState(0);const [error,setError]=useState("");useEffect(()=>{let mounted=true;(async()=>{try{const response=await fetch("/api/exams/generate",{method:"POST"});if(!response.ok)throw new Error((await response.json()).error);const data=await response.json() as {examId:string;startedAt:string;questions:PublicQuestion[]};for(let index=1;index<=steps.length;index++){await new Promise(resolve=>setTimeout(resolve,360));if(mounted)setDone(index)}if(!mounted)return;saveExam({id:data.examId,startedAt:data.startedAt,status:"ACTIVE",questions:data.questions,answers:{}});router.replace(`/exams/${data.examId}`)}catch(cause){setError(cause instanceof Error?cause.message:"No pudimos preparar el ensayo.")}})();return()=>{mounted=false}},[router]);return <div className="loading-page"><div className="loading-card"><div className="loader-orbit"/><p className="eyebrow">Motor de ensayo</p><h1 style={{fontSize:38}}>Preparando tu ensayo...</h1><p className="muted">Construimos una selección equilibrada y validamos cada alternativa.</p><div className="checklist">{steps.map((step,index)=><span className={index<done?"done":""} key={step}>{index<done?<CheckCircle2 size={17}/>:<Circle size={17}/>} {step}</span>)}</div>{error&&<p className="form-error">{error}</p>}</div></div>}
