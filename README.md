@@ -5,7 +5,9 @@ Aplicación Next.js para generar, realizar, corregir y analizar ensayos de Compe
 ## Capacidades
 
 - Blueprint de 65 posiciones con ejes, habilidades, dificultad y recursos.
-- Banco original y validación determinística de cuatro alternativas.
+- Banco de 612 preguntas originales: 153 familias estructurales con cuatro ediciones verificables por familia.
+- Antirrepetición por huella estructural: una edición numérica expuesta bloquea toda su familia en el ensayo siguiente.
+- Validación determinística de enunciado, cuatro alternativas distintas, clave, solución, distractores, unidad curricular y recursos visuales.
 - Cronómetro de 2 h 20 min basado en timestamp, navegación y autosave.
 - Respuestas correctas omitidas del payload del ensayo activo; corrección server-side.
 - Resultados, análisis por eje, revisión completa y PDF descargable.
@@ -24,7 +26,7 @@ Browser (preguntas sanitizadas)
       → feedback OpenAI + PDF + Resend
 ```
 
-En modo demo, las preguntas públicas y respuestas del estudiante se recuperan en `localStorage`; las claves correctas solo existen en el Route Handler de entrega. El modo de producción reemplaza esa persistencia por las tablas y políticas incluidas.
+En modo demo, las preguntas públicas y respuestas del estudiante se recuperan en `localStorage`. Al generar, el historial de IDs expuestos permite al servidor excluir sus huellas estructurales. Las claves correctas solo existen en el Route Handler de entrega, que corrige exclusivamente los 65 IDs del ensayo. El modo de producción reemplaza esa persistencia por las tablas y políticas incluidas.
 
 ## Stack
 
@@ -78,4 +80,7 @@ El proyecto es compatible con Vercel. Configura las variables en Development, Pr
 
 ## Fuentes curriculares
 
-La estructura se preparó a partir del Temario PAES M1 Admisión 2027 y del análisis de patrones de la selección de preguntas PAES M1 Admisión 2026. Las preguntas incluidas son originales y no copian ni parafrasean ítems DEMRE.
+La cobertura sigue el Temario PAES M1 Admisión 2027. Para construir la taxonomía se analizaron 480 ítems públicos de ocho aplicaciones oficiales: Regular 2023, Invierno y Regular 2024, Invierno y Regular 2025, Invierno y Regular 2026 e Invierno 2027. El corpus oficial se usa sólo como referencia de habilidades, representaciones, complejidad y tipos de razonamiento; no se distribuye con la aplicación.
+
+Todas las preguntas del banco son originales. No se copian ni parafrasean ítems DEMRE y no se considera original una pregunta que sólo cambie números, nombres o contexto: esas ediciones comparten una misma huella y el selector las trata como una sola familia.
+
